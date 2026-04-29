@@ -206,6 +206,21 @@ export default function HomePage() {
           We fix that.
         </p>
 
+        {/* Google Slides Embed */}
+        <div className="flex justify-center px-4 md:px-8 mb-6 md:mb-10">
+          <div className="w-full md:w-[1090px] max-w-full">
+            <div className="relative w-full" style={{ paddingBottom: "57.38%" }}>
+              <iframe
+                src="https://docs.google.com/presentation/d/e/2PACX-1vRpyEPCifrTkjxljIslUil2wNQ8ia5QH9LY8p8GmAb2f2Mh077KGG_9FbSZ4jNJsEDN8wHAzoT6VGVM/embed?start=false&loop=false&delayms=3000"
+                frameBorder="0"
+                allowFullScreen={true}
+                className="absolute top-0 left-0 w-full h-full rounded-lg md:rounded-2xl shadow-lg"
+                title="How Amphs AI gets law firms recommended by ChatGPT"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+
         {/* Hero CTA */}
         <div className="flex flex-col items-center px-4 md:px-8 mb-3 md:mb-4">
           <Link
