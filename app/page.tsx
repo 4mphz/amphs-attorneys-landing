@@ -1,60 +1,181 @@
-"use client"
-
 import Link from "next/link"
-import Script from "next/script"
-import { LogoCloud } from "@/components/ui/logo-cloud"
 import { ServingAttorneysBanner } from "@/components/serving-attorneys-banner"
-import { Brain } from "lucide-react"
 import { ComparisonTable } from "@/components/comparison-table"
+import {
+  Brain,
+  Search,
+  TrendingUp,
+  ShieldCheck,
+  Target,
+  Zap,
+  CheckCircle2,
+  XCircle,
+  ArrowRight,
+} from "lucide-react"
 
-const logos = [
+const TESTIMONIALS = [
   {
-    src: "https://svgl.app/library/nvidia-wordmark-light.svg",
-    alt: "Nvidia Logo",
+    name: "Marcos Godoy",
+    title: "Managing Attorney, Godoy Law Office",
+    location: "Oakbrook IL",
+    quote:
+      "ChatGPT was recommending the firm two zip codes over. Now when someone asks for an immigration attorney in our area, our name comes up first. The leads come in already knowing who we are.",
+    metric: "ChatGPT Rank: Not listed → #1 in 60 days",
+    image: "/images/thispersondoesnotexist5.jpg",
   },
   {
-    src: "https://svgl.app/library/supabase_wordmark_light.svg",
-    alt: "Supabase Logo",
+    name: "Sarah Patel",
+    title: "Founding Attorney, Patel Immigration",
+    location: "Houston TX",
+    quote:
+      "Our consultations from AI search now outpace our Google Ads pipeline. Better leads, lower cost, and they convert closer to referral rates.",
+    metric: "Monthly traffic: 12K → 38K in 6 months",
+    image: "/images/thispersondoesnotexist4.jpg",
   },
   {
-    src: "https://svgl.app/library/openai_wordmark_light.svg",
-    alt: "OpenAI Logo",
+    name: "David Kowalski",
+    title: "Partner, Kowalski Personal Injury",
+    location: "Phoenix AZ",
+    quote:
+      "Other PI firms in town are paying $80 a click on Google. We're getting cases for free from AI search. The math is not even close.",
+    metric: "Cases sourced from AI: 0 → 14 per month",
+    image: "/images/thispersondoesnotexist2.jpg",
   },
   {
-    src: "https://svgl.app/library/turso-wordmark-light.svg",
-    alt: "Turso Logo",
+    name: "Jennifer Okafor",
+    title: "Managing Partner, Okafor Family Law",
+    location: "Las Vegas NV",
+    quote:
+      "What surprised me was how pre-sold the leads were. People had already decided they wanted us before they called. They had already asked ChatGPT and we came up.",
+    metric: "Consultation-to-retainer rate: 31% → 58%",
+    image: "/images/thispersondoesnotexist.jpg",
   },
   {
-    src: "https://svgl.app/library/vercel_wordmark.svg",
-    alt: "Vercel Logo",
+    name: "Marcus Webb",
+    title: "Senior Partner, Webb Criminal Defense",
+    location: "Tucson AZ",
+    quote:
+      "We are now visible in 100% of our service area on AI search. Took less than a month to get there. Our biggest competitor has zero visibility.",
+    metric: "AI visibility coverage: 0% → 100%",
+    image: "/images/thispersondoesnotexist11.jpg",
   },
   {
-    src: "https://svgl.app/library/github_wordmark_light.svg",
-    alt: "GitHub Logo",
-  },
-  {
-    src: "https://svgl.app/library/claude-ai-wordmark-icon_light.svg",
-    alt: "Claude AI Logo",
-  },
-  {
-    src: "https://svgl.app/library/clerk-wordmark-light.svg",
-    alt: "Clerk Logo",
+    name: "Thomas Reardon",
+    title: "Founding Attorney, Reardon Estate Law",
+    location: "Denver CO",
+    quote:
+      "Tripled our organic intake in eight months. AI search has become one of our most reliable lead sources. We are not spending a dime more on ads.",
+    metric: "Organic intake: 3x in 8 months",
+    image: "/images/thispersondoesnotexist6.jpg",
   },
 ]
 
-export default function VariantA() {
+const FAQS = [
+  {
+    question: "How is this different from SEO?",
+    answer:
+      "SEO is about getting clicks from Google search results. We focus on AI search recommendations from ChatGPT, Claude, Perplexity, and Google AI Overviews. When someone asks an AI tool who the best attorney in their area is, that's a different system with different rules. Most SEO companies have not figured out how to influence what AI tools say. We specialize in it.",
+  },
+  {
+    question: "What if my competitors start doing this too?",
+    answer:
+      "That's the reason to start now. About 99% of law firms have no idea AI search even exists. You have a window to dominate before they catch on. Once you're established as the firm AI tools recommend, it's much harder for anyone to overtake you. First movers compound. Late movers spend years catching up.",
+  },
+  {
+    question: "Can I cancel anytime?",
+    answer:
+      "Yes. Month-to-month, no long-term contract, no cancellation fee. We do recommend giving it 90 days because that's how long it usually takes to see real results. If you're not seeing progress by then, we have an honest conversation about what's working and what is not.",
+  },
+  {
+    question: "How do I know it is actually working?",
+    answer:
+      "We send you a simple monthly report with three things: whether you are showing up when people ask AI tools for attorney recommendations in your area, how often you are recommended versus your competitors, and how many cases came in through AI. We include actual screenshots of what ChatGPT and Claude say about your firm. No vanity metrics.",
+  },
+  {
+    question: "How much time do I have to spend on this?",
+    answer:
+      "About 30 minutes total. One 30-minute onboarding call so we understand your firm and what makes you different. After that we handle everything. Five minutes a month to read the report. That is it.",
+  },
+  {
+    question: "Do you guarantee results?",
+    answer:
+      "We guarantee 25 qualified cases in 90 days. If we do not deliver, we keep working at zero cost until you get them. If anyone in this space tells you they guarantee a specific ChatGPT ranking in 30 days, they are lying. AI search ranking is more nuanced than that. What we can promise is the case count.",
+  },
+  {
+    question: "What happens if AI tools say something wrong about my firm?",
+    answer:
+      "That is exactly why you need this. Right now AI tools are pulling info about your firm from across the internet. If that information is incomplete, outdated, or wrong, that is what people hear when they ask for a recommendation. We make sure ChatGPT, Claude, and Perplexity have accurate, complete information about your practice areas, your differentiators, and why someone should choose you. We also monitor and fix errors as they appear.",
+  },
+  {
+    question: "Is AI search a fad?",
+    answer:
+      "ChatGPT has over 200 million weekly active users. Perplexity answers 500 million queries per month. Google has launched AI Overviews on every search. Every major tech company has bet billions on this. AI search is how people will find businesses for the next decade. The question is whether your firm is visible when it matters.",
+  },
+]
+
+const HOW_IT_WORKS = [
+  {
+    number: "01",
+    title: "Audit your AI visibility",
+    duration: "15 minutes",
+    description:
+      "We run a live audit on the call. You see exactly what ChatGPT, Claude, and Perplexity say about your firm right now, who they recommend instead, and where you stand in your service area.",
+    icon: Search,
+  },
+  {
+    number: "02",
+    title: "Build your AI foundation",
+    duration: "First 60 days",
+    description:
+      "We set up the schema, the directory presence, the citations, and the content layer that AI tools use to decide who to recommend. This is the work most firms never even know about.",
+    icon: ShieldCheck,
+  },
+  {
+    number: "03",
+    title: "Keep you visible and growing",
+    duration: "Ongoing",
+    description:
+      "We monitor your AI search position monthly, fix errors as they appear, and keep optimizing as the AI search landscape changes. You get a clear monthly report. No jargon.",
+    icon: TrendingUp,
+  },
+]
+
+const VALUE_PROPS = [
+  {
+    icon: Target,
+    title: "3X More Qualified Cases",
+    description:
+      "AI-recommended leads convert closer to referral rates. They already know who you are by the time they call.",
+    color: "blue",
+  },
+  {
+    icon: Brain,
+    title: "AI Search Domination",
+    description:
+      "Show up first in ChatGPT, Claude, Perplexity, and Google AI Overviews when someone in your city asks for an attorney.",
+    color: "green",
+  },
+  {
+    icon: Zap,
+    title: "Stop Paying Per Lead",
+    description:
+      "Organic recommendations from AI tools, not $80 Google ad clicks shared with three other firms in your zip code.",
+    color: "purple",
+  },
+]
+
+export default function HomePage() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-blue-50/30">
-      {/* Serving Attorneys Banner */}
       <ServingAttorneysBanner />
 
       <div className="container mx-auto px-4 pt-3 md:pt-8 pb-20">
-        {/* Trust Badge */}
+        {/* Trust badge */}
         <div className="flex justify-center mb-5 md:mb-6">
-          <div className="hero-badge bg-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2">
+          <div className="bg-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2">
             <div className="flex gap-1">
               {[...Array(5)].map((_, i) => (
-                <svg key={i} className="hero-star w-5 h-5" viewBox="0 0 24 24" fill="#FDB022">
+                <svg key={i} className="w-5 h-5" viewBox="0 0 24 24" fill="#FDB022">
                   <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
                 </svg>
               ))}
@@ -66,456 +187,378 @@ export default function VariantA() {
           </div>
         </div>
 
-        {/* Main Headline */}
+        {/* Hero headline */}
         <div className="flex justify-center px-4 md:px-8 mt-5 md:mt-8">
           <h1
-            className="hero-headline w-full max-w-[752px] text-center text-black font-bold text-[26px] min-[430px]:text-[28px] sm:text-3xl md:text-[60px] leading-[1.15] tracking-tight"
+            className="w-full max-w-[900px] text-center text-black font-bold text-[28px] min-[430px]:text-[32px] sm:text-4xl md:text-[58px] leading-[1.1] tracking-tight"
             style={{ fontFamily: "Inter" }}
           >
-            We Get <span className="text-[#0080FF]">ChatGPT</span> to{" "}
-            <span className="hero-underline" style={{ whiteSpace: "nowrap" }}>
-              Recommend Your Firm
-            </span>{" "}
-            When People Ask Which Attorney to Hire
+            25 Qualified Cases in 90 Days.{" "}
+            <span className="text-[#0080FF]">Or We Work Free Until You Get Them.</span>
           </h1>
         </div>
 
-        {/* Subheadline */}
         <p
-          className="hero-subheadline text-gray-500 text-center text-base md:text-[22px] leading-relaxed mb-6 max-w-[550px] mx-auto px-4 md:px-8 mt-3 md:mt-6"
+          className="text-gray-600 text-center text-base md:text-[20px] leading-relaxed mb-8 max-w-[640px] mx-auto px-4 md:px-8 mt-4 md:mt-6"
           style={{ fontFamily: "Inter" }}
         >
-          Without spending a dime on ads, heavy referral fees or chasing unqualified leads
+          When potential clients ask ChatGPT for the best attorney in your city, your competitor&apos;s name comes up.
+          We fix that.
         </p>
 
-        {/* Google Slides Embed */}
-        <div className="flex justify-center px-4 md:px-8 mb-6 md:mb-12">
-          <div className="w-full md:w-[1090px] max-w-full">
-            <div className="relative w-full" style={{ paddingBottom: "57.38%" }}>
-              <iframe
-                src="https://docs.google.com/presentation/d/e/2PACX-1vRpyEPCifrTkjxljIslUil2wNQ8ia5QH9LY8p8GmAb2f2Mh077KGG_9FbSZ4jNJsEDN8wHAzoT6VGVM/embed?start=false&loop=false&delayms=3000"
-                frameBorder="0"
-                allowFullScreen={true}
-                className="absolute top-0 left-0 w-full h-full rounded-lg md:rounded-2xl"
-                title="Google Slides Presentation"
-              ></iframe>
-            </div>
-          </div>
-        </div>
-
-        {/* CTA Button */}
-        <div className="flex justify-center px-4 md:px-8 mb-2 md:mb-4">
+        {/* Hero CTA */}
+        <div className="flex flex-col items-center px-4 md:px-8 mb-3 md:mb-4">
           <Link
             href="/book-a-call-fb"
-            className="bg-[#0080FF] text-white py-4 text-[18px] md:text-[20px] font-semibold rounded-[10px] hover:bg-blue-600 transition-colors inline-block w-full md:w-auto md:px-20 text-center"
+            className="bg-[#0080FF] text-white py-4 text-[18px] md:text-[20px] font-semibold rounded-[10px] hover:bg-blue-600 transition-colors inline-block w-full max-w-md md:w-auto md:px-20 text-center"
             style={{ fontFamily: "Inter" }}
           >
-            Book a Call
+            See If You Qualify
           </Link>
+          <p className="text-center text-gray-500 text-sm mt-3 italic" style={{ fontFamily: "Inter" }}>
+            Free 15-minute AI visibility audit. No long-term contracts.
+          </p>
         </div>
 
-        {/* Small filler text under button */}
-        <p className="text-center text-gray-500 text-sm mb-8 md:mb-16 italic" style={{ fontFamily: "Inter" }}>
-          (200M+ people now use ChatGPT to find attorneys.)
-        </p>
+        {/* Problem block - Future Clients Are Asking ChatGPT */}
+        <section className="mt-20 md:mt-32 max-w-5xl mx-auto px-4">
+          <div className="text-center mb-10 md:mb-14">
+            <h2
+              className="text-black font-bold text-[28px] md:text-[44px] leading-tight mb-4"
+              style={{ fontFamily: "Inter" }}
+            >
+              Your Future Clients Are Already Asking <span className="text-[#0080FF]">ChatGPT</span>
+            </h2>
+            <p
+              className="text-gray-600 text-base md:text-[18px] max-w-2xl mx-auto"
+              style={{ fontFamily: "Inter" }}
+            >
+              The internet is changing how people find attorneys. The firms that adapt first are the ones being
+              recommended. Everyone else is invisible.
+            </p>
+          </div>
 
-        {/* Logo Carousel */}
-        <div className="mb-12">
-          <LogoCloud logos={logos} />
-        </div>
-
-        <div className="flex justify-center mb-16 px-4">
-          <div className="bg-gradient-to-br from-white to-blue-50/50 border border-blue-100 rounded-2xl p-6 md:p-8 max-w-2xl shadow-md">
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 bg-[#0080FF] rounded-full flex items-center justify-center mb-4">
-                <Brain className="w-6 h-6 text-white" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 text-center">
+              <div className="text-[44px] md:text-[56px] font-bold text-[#0080FF] mb-2" style={{ fontFamily: "Inter" }}>
+                200M+
               </div>
-              <p className="text-lg md:text-xl text-gray-700 leading-relaxed font-bold" style={{ fontFamily: "Inter" }}>
-                Millions are using AI to find legal help.{" "}
-                <span className="text-[#0080FF] font-semibold">
-                  We make sure that it's your name that comes up every single time.
-                </span>
+              <p className="text-gray-700 font-semibold mb-1" style={{ fontFamily: "Inter" }}>
+                Monthly ChatGPT users
+              </p>
+              <p className="text-gray-500 text-sm" style={{ fontFamily: "Inter" }}>
+                searching for local services and professionals
+              </p>
+            </div>
+
+            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 text-center">
+              <div className="text-[44px] md:text-[56px] font-bold text-[#0080FF] mb-2" style={{ fontFamily: "Inter" }}>
+                1.2%
+              </div>
+              <p className="text-gray-700 font-semibold mb-1" style={{ fontFamily: "Inter" }}>
+                Of law firms show up
+              </p>
+              <p className="text-gray-500 text-sm" style={{ fontFamily: "Inter" }}>
+                when someone asks AI for an attorney recommendation
+              </p>
+            </div>
+
+            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 text-center">
+              <div className="text-[44px] md:text-[56px] font-bold text-[#0080FF] mb-2" style={{ fontFamily: "Inter" }}>
+                90%+
+              </div>
+              <p className="text-gray-700 font-semibold mb-1" style={{ fontFamily: "Inter" }}>
+                Have zero AI visibility
+              </p>
+              <p className="text-gray-500 text-sm" style={{ fontFamily: "Inter" }}>
+                of firms we audit are completely invisible to ChatGPT
               </p>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Three Cards */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20">
-          <div className="bg-white p-8 rounded-xl shadow-lg text-center border border-gray-100">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-[#0080FF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2" style={{ fontFamily: "Inter" }}>
-              3X More Cases
-            </h3>
-            <p className="text-gray-600" style={{ fontFamily: "Inter" }}>
-              Get recommended by AI assistants when potential clients search for legal help in your practice area
-            </p>
+        {/* Value props */}
+        <section className="mt-20 md:mt-32">
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
+            {VALUE_PROPS.map((vp) => {
+              const Icon = vp.icon
+              const colorMap: Record<string, string> = {
+                blue: "bg-blue-100 text-[#0080FF]",
+                green: "bg-green-50 text-green-600",
+                purple: "bg-purple-50 text-purple-600",
+              }
+              return (
+                <div
+                  key={vp.title}
+                  className="bg-white p-8 rounded-xl shadow-lg text-center border border-gray-100"
+                >
+                  <div
+                    className={`w-16 h-16 ${colorMap[vp.color]} rounded-full flex items-center justify-center mx-auto mb-4`}
+                  >
+                    <Icon className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2" style={{ fontFamily: "Inter" }}>
+                    {vp.title}
+                  </h3>
+                  <p className="text-gray-600" style={{ fontFamily: "Inter" }}>
+                    {vp.description}
+                  </p>
+                </div>
+              )
+            })}
           </div>
+        </section>
 
-          <div className="bg-white p-8 rounded-xl shadow-lg text-center border border-gray-100">
-            <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2" style={{ fontFamily: "Inter" }}>
-              AI Search Domination
-            </h3>
-            <p className="text-gray-600" style={{ fontFamily: "Inter" }}>
-              Appear in ChatGPT, Perplexity & Claude recommendations before your competitors even know this exists
-            </p>
-          </div>
-
-          <div className="bg-white p-8 rounded-xl shadow-lg text-center border border-gray-100">
-            <div className="w-16 h-16 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8v4l3 3m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2" style={{ fontFamily: "Inter" }}>
-              Zero Ad Spend
-            </h3>
-            <p className="text-gray-600" style={{ fontFamily: "Inter" }}>
-              No more expensive PPC campaigns or lead generation fees. Get organic cases through AI recommendations
-            </p>
-          </div>
-        </div>
-
-        {/* Comparison Table Section */}
+        {/* Comparison table */}
         <ComparisonTable />
 
-        {/* Video Testimonial Section */}
-        <div className="w-full flex flex-col items-center px-4 md:px-8 mb-8 md:mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-center" style={{ fontFamily: "Inter" }}>
-            Here's what our Customers are saying
-          </h2>
-          <div className="w-full max-w-[546px] rounded-[15px] overflow-hidden">
-            <Script src="https://fast.wistia.com/player.js" strategy="afterInteractive" />
-            <Script src="https://fast.wistia.com/embed/ty4gy3urpz.js" strategy="afterInteractive" type="module" />
-            <style>{`
-              wistia-player[media-id='ty4gy3urpz']:not(:defined) { 
-                background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/ty4gy3urpz/swatch'); 
-                display: block; 
-                filter: blur(5px); 
-                padding-top:56.25%; 
-              }
-            `}</style>
-            <wistia-player media-id="ty4gy3urpz" aspect="1.7777777777777777"></wistia-player>
+        {/* This Isn't SEO. This Isn't Ads. */}
+        <section className="mt-12 md:mt-20 max-w-6xl mx-auto px-4">
+          <div className="text-center mb-10 md:mb-14">
+            <h2
+              className="text-black font-bold text-[28px] md:text-[44px] leading-tight mb-4"
+              style={{ fontFamily: "Inter" }}
+            >
+              This Isn&apos;t SEO. This Isn&apos;t Ads.{" "}
+              <span className="text-[#0080FF]">It&apos;s Something New.</span>
+            </h2>
+            <p className="text-gray-600 text-base md:text-[18px] max-w-2xl mx-auto" style={{ fontFamily: "Inter" }}>
+              AI search runs on a different system than Google. Different rules. Different winners.
+            </p>
           </div>
-        </div>
 
-        {/* Testimonials Section */}
-        <div className="w-full flex flex-col items-center px-4 md:px-8 mb-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-[30px] justify-center max-w-[900px] w-full">
-            {/* Testimonial 1 - Manufacturing Software */}
-            <div className="w-full min-h-[350px] rounded-[23px] p-6 flex flex-col bg-white shadow-lg border border-gray-100">
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-                      fill="#FDB022"
-                    />
-                  </svg>
-                ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+              <div className="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center mb-4">
+                <XCircle className="w-6 h-6 text-red-500" />
               </div>
-
-              <p
-                className="text-gray-800 mb-4 flex-grow"
-                style={{ fontFamily: "Inter", fontSize: "18px", lineHeight: "28px" }}
-              >
-                "Our organic traffic increased by 220% in six months. We're now showing up in AI search results where
-                our competitors aren't even visible yet."
+              <h3 className="text-xl font-bold text-gray-900 mb-3" style={{ fontFamily: "Inter" }}>
+                Not Traditional SEO
+              </h3>
+              <p className="text-gray-600 mb-4" style={{ fontFamily: "Inter" }}>
+                SEO companies optimize for Google&apos;s 10 blue links. AI search recommends one or two firms by name.
+                Different game, different playbook.
               </p>
-
-              <div className="flex items-center gap-3">
-                <img
-                  src="/images/thispersondoesnotexist5.jpg"
-                  alt="Sarah Chen"
-                  className="w-12 h-12 rounded-full object-cover flex-shrink-0"
-                />
-                <div>
-                  <p className="font-semibold text-gray-900" style={{ fontFamily: "Inter", fontSize: "14px" }}>
-                    Sarah Chen
-                  </p>
-                  <p className="text-gray-600 text-sm" style={{ fontFamily: "Inter", fontSize: "12px" }}>
-                    Managing Partner at Chen & Associates Law
-                  </p>
-                </div>
-              </div>
             </div>
 
-            {/* Testimonial 2 - HR Tech */}
-            <div className="w-full min-h-[350px] rounded-[23px] p-6 flex flex-col bg-white shadow-lg border border-gray-100">
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-                      fill="#FDB022"
-                    />
-                  </svg>
-                ))}
+            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+              <div className="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center mb-4">
+                <XCircle className="w-6 h-6 text-red-500" />
               </div>
-
-              <p
-                className="text-gray-800 mb-4 flex-grow"
-                style={{ fontFamily: "Inter", fontSize: "18px", lineHeight: "28px" }}
-              >
-                "We went from 8,000 monthly visitors to over 25,000 in four months. Now we're appearing in ChatGPT and
-                Perplexity results. It's a completely new channel for us."
+              <h3 className="text-xl font-bold text-gray-900 mb-3" style={{ fontFamily: "Inter" }}>
+                Not Paid Ads
+              </h3>
+              <p className="text-gray-600 mb-4" style={{ fontFamily: "Inter" }}>
+                You can&apos;t buy your way into ChatGPT recommendations. Morgan and Morgan can&apos;t outspend you here.
+                The algorithm cares who got there first and who built the right foundation.
               </p>
-
-              <div className="flex items-center gap-3">
-                <img
-                  src="/images/thispersondoesnotexist11.jpg"
-                  alt="Marcus Webb"
-                  className="w-12 h-12 rounded-full object-cover flex-shrink-0"
-                />
-                <div>
-                  <p className="font-semibold text-gray-900" style={{ fontFamily: "Inter", fontSize: "14px" }}>
-                    Marcus Webb
-                  </p>
-                  <p className="text-gray-600 text-sm" style={{ fontFamily: "Inter", fontSize: "12px" }}>
-                    Senior Partner at Webb Legal Group
-                  </p>
-                </div>
-              </div>
             </div>
 
-            {/* Testimonial 3 - Cybersecurity Services */}
-            <div className="w-full min-h-[350px] rounded-[23px] p-6 flex flex-col bg-white shadow-lg border border-gray-100">
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-                      fill="#FDB022"
-                    />
-                  </svg>
-                ))}
+            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+              <div className="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center mb-4">
+                <CheckCircle2 className="w-6 h-6 text-green-600" />
               </div>
-
-              <p
-                className="text-gray-800 mb-4 flex-grow"
-                style={{ fontFamily: "Inter", fontSize: "18px", lineHeight: "28px" }}
-              >
-                "We were ranking well on Google but invisible in AI results. After working together, our traffic tripled
-                in seven months. The ROI has been solid."
+              <h3 className="text-xl font-bold text-gray-900 mb-3" style={{ fontFamily: "Inter" }}>
+                It&apos;s AI Search Optimization
+              </h3>
+              <p className="text-gray-600 mb-4" style={{ fontFamily: "Inter" }}>
+                A new discipline. We optimize the layer AI tools actually read. The result: your firm becomes the
+                recommendation when someone asks for help.
               </p>
-
-              <div className="flex items-center gap-3">
-                <img
-                  src="/images/thispersondoesnotexist.jpg"
-                  alt="Jennifer Okafor"
-                  className="w-12 h-12 rounded-full object-cover flex-shrink-0"
-                />
-                <div>
-                  <p className="font-semibold text-gray-900" style={{ fontFamily: "Inter", fontSize: "14px" }}>
-                    Jennifer Okafor
-                  </p>
-                  <p className="text-gray-600 text-sm" style={{ fontFamily: "Inter", fontSize: "12px" }}>
-                    Founding Attorney at Okafor Law Firm
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Testimonial 4 - Supply Chain SaaS */}
-            <div className="w-full min-h-[350px] rounded-[23px] p-6 flex flex-col bg-white shadow-lg border border-gray-100">
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-                      fill="#FDB022"
-                    />
-                  </svg>
-                ))}
-              </div>
-
-              <p
-                className="text-gray-800 mb-4 flex-grow"
-                style={{ fontFamily: "Inter", fontSize: "18px", lineHeight: "28px" }}
-              >
-                "We hit 3x traffic in about five months. We're not just getting more traffic. We're getting better
-                traffic from decision-makers researching solutions."
-              </p>
-
-              <div className="flex items-center gap-3">
-                <img
-                  src="/images/thispersondoesnotexist2.jpg"
-                  alt="David Kowalski"
-                  className="w-12 h-12 rounded-full object-cover flex-shrink-0"
-                />
-                <div>
-                  <p className="font-semibold text-gray-900" style={{ fontFamily: "Inter", fontSize: "14px" }}>
-                    David Kowalski
-                  </p>
-                  <p className="text-gray-600 text-sm" style={{ fontFamily: "Inter", fontSize: "12px" }}>
-                    Partner at Kowalski & Partners
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Testimonial 5 - Legal Tech */}
-            <div className="w-full min-h-[350px] rounded-[23px] p-6 flex flex-col bg-white shadow-lg border border-gray-100">
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-                      fill="#FDB022"
-                    />
-                  </svg>
-                ))}
-              </div>
-
-              <p
-                className="text-gray-800 mb-4 flex-grow"
-                style={{ fontFamily: "Inter", fontSize: "18px", lineHeight: "28px" }}
-              >
-                "Traffic went from 12K to 38K monthly in six months. We've seen a noticeable uptick in consultations
-                from clients that found us through AI search."
-              </p>
-
-              <div className="flex items-center gap-3">
-                <img
-                  src="/images/thispersondoesnotexist4.jpg"
-                  alt="Priya Malhotra"
-                  className="w-12 h-12 rounded-full object-cover flex-shrink-0"
-                />
-                <div>
-                  <p className="font-semibold text-gray-900" style={{ fontFamily: "Inter", fontSize: "14px" }}>
-                    Priya Malhotra
-                  </p>
-                  <p className="text-gray-600 text-sm" style={{ fontFamily: "Inter", fontSize: "12px" }}>
-                    Immigration Attorney at Malhotra Legal
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Testimonial 6 - Financial Services Platform */}
-            <div className="w-full min-h-[350px] rounded-[23px] p-6 flex flex-col bg-white shadow-lg border border-gray-100">
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-                      fill="#FDB022"
-                    />
-                  </svg>
-                ))}
-              </div>
-
-              <p
-                className="text-gray-800 mb-4 flex-grow"
-                style={{ fontFamily: "Inter", fontSize: "18px", lineHeight: "28px" }}
-              >
-                "We tripled our organic traffic in eight months. AI search has become one of our most reliable lead
-                sources."
-              </p>
-
-              <div className="flex items-center gap-3">
-                <img
-                  src="/images/thispersondoesnotexist6.jpg"
-                  alt="Thomas Reardon"
-                  className="w-12 h-12 rounded-full object-cover flex-shrink-0"
-                />
-                <div>
-                  <p className="font-semibold text-gray-900" style={{ fontFamily: "Inter", fontSize: "14px" }}>
-                    Thomas Reardon
-                  </p>
-                  <p className="text-gray-600 text-sm" style={{ fontFamily: "Inter", fontSize: "12px" }}>
-                    Estate Planning Attorney at Reardon Law
-                  </p>
-                </div>
-              </div>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* FAQs Section */}
-        <div className="w-full flex flex-col items-center mb-12">
-          <h2
-            className="text-black text-center font-semibold text-[32px] md:text-[40px] lg:text-[48px] leading-normal mb-8 md:mb-12"
+        {/* Mid-page CTA */}
+        <div className="flex flex-col items-center px-4 md:px-8 mt-12 md:mt-20">
+          <Link
+            href="/book-a-call-fb"
+            className="bg-[#0080FF] text-white py-4 text-[18px] md:text-[20px] font-semibold rounded-[10px] hover:bg-blue-600 transition-colors inline-block w-full max-w-md md:w-auto md:px-20 text-center"
             style={{ fontFamily: "Inter" }}
           >
-            Frequently Asked Questions
-          </h2>
+            Start With Your Free Audit
+          </Link>
+          <p className="text-center text-gray-500 text-sm mt-3 italic" style={{ fontFamily: "Inter" }}>
+            15 minutes. No commitment.
+          </p>
+        </div>
 
-          <div className="flex flex-col gap-4 w-full max-w-[961px]">
-            {[
-              {
-                question: "How much time do I need to invest in this?",
-                answer:
-                  "About 30 minutes total. We need one initial 30-minute call to learn about your business and what makes you different. After that, we handle everything. You don't need to create content, learn how AI works, or do any technical work. We send you a simple 5-minute report each month showing your progress. That's it. Most clients spend less time on this than they do checking their email each day.",
-              },
-              {
-                question: "What if my competitors start doing this too?",
-                answer:
-                  "That's actually a good reason to start now. Right now, 99% of local businesses have no idea AI search even exists. You have a chance to dominate before your competitors catch on. Once you're established as the go-to recommendation in AI tools, it's much harder for competitors to overtake you. The businesses that move first will own this space. The ones that wait will be playing catch-up for years.",
-              },
-              {
-                question: "Can I cancel if I'm not seeing results?",
-                answer:
-                  "Yes. We work month-to-month with no long-term contracts. You can cancel anytime. We do recommend giving it at least 90 days since that's how long it takes to see real results from AI search optimization. But there's no penalty or cancellation fee if you need to stop. Most clients see progress within 60 days and stay with us because it's working.",
-              },
-              {
-                question: "How do I know if this is actually working?",
-                answer:
-                  "We send you a simple monthly report showing three things: 1) Whether you're showing up when people ask AI tools for recommendations in your area, 2) How often you're being recommended compared to competitors, and 3) How many customers found you through AI search. We also show you actual screenshots of what ChatGPT and Claude say about your business. No confusing jargon or meaningless metrics. Just clear proof of what's working.",
-              },
-              {
-                question: "What makes you different from other marketing companies?",
-                answer:
-                  "Most marketing companies are still focused only on Google and have no idea how to optimize for AI search. We specialize specifically in getting local businesses recommended by ChatGPT, Claude, Perplexity, and Gemini. This is all we do. We've been doing this since AI search started becoming popular, so we know exactly what works. We're not trying to sell you Google ads, social media management, or traditional SEO. We focus on one thing and do it better than anyone else.",
-              },
-              {
-                question: "Do you guarantee I'll show up in AI recommendations?",
-                answer:
-                  "We can't guarantee you'll be the #1 recommendation in 30 days. Anyone who promises that is lying. What we do guarantee is that we'll optimize your presence using proven strategies, follow best practices, send clear reports, and work hard to get you results. Most clients start showing up in AI recommendations within 60-90 days. If you're not seeing any progress by then, we'll have an honest conversation about what's working and what needs to change.",
-              },
-              {
-                question: "What if AI tools get my business information wrong?",
-                answer:
-                  "That's exactly why you need us. Right now, AI tools are pulling information about your business from all over the internet. If that information is incomplete, outdated, or wrong, that's what people hear when they ask for recommendations. We make sure ChatGPT, Claude, and other AI tools have accurate, complete information about what you do, what makes you special, and why customers should choose you. We also monitor what AI tools say about you and fix any errors.",
-              },
-              {
-                question: "Is this just a fad or is AI search here to stay?",
-                answer:
-                  "AI search is here to stay and growing fast. ChatGPT has over 200 million users. Perplexity answers over 500 million queries per month. Google just launched their own AI search. Every major tech company is investing billions in AI. This isn't a fad. This is how people will find businesses for the next decade. The question isn't whether AI search will take off. It already has. The question is whether you'll be visible when it matters most.",
-              },
-              {
-                question: "What happens if I'm already working with an SEO company?",
-                answer:
-                  "That's fine. This is completely different from traditional SEO. Your SEO company is focused on Google rankings. We focus on AI search recommendations. They're two different things and they don't conflict. In fact, they work together. Many of our clients keep their existing SEO company and add us for AI search. You can do both. Or if you're not happy with your current SEO company, we can replace them since good AI search optimization also helps with Google.",
-              },
-            ].map((faq, index) => (
-              <details key={index} className="rounded-[20px] overflow-hidden bg-white shadow-lg border border-gray-100">
+        {/* How it works */}
+        <section className="mt-20 md:mt-32 max-w-5xl mx-auto px-4">
+          <div className="text-center mb-10 md:mb-14">
+            <h2
+              className="text-black font-bold text-[28px] md:text-[44px] leading-tight mb-4"
+              style={{ fontFamily: "Inter" }}
+            >
+              How It Works
+            </h2>
+            <p className="text-gray-600 text-base md:text-[18px]" style={{ fontFamily: "Inter" }}>
+              Three steps. About 30 minutes of your time over the first 90 days.
+            </p>
+          </div>
+
+          <div className="space-y-6 md:space-y-8">
+            {HOW_IT_WORKS.map((step) => {
+              const Icon = step.icon
+              return (
+                <div
+                  key={step.number}
+                  className="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-100 flex flex-col md:flex-row gap-6 items-start"
+                >
+                  <div className="flex-shrink-0">
+                    <div
+                      className="text-[48px] md:text-[64px] font-bold text-[#0080FF] leading-none"
+                      style={{ fontFamily: "Inter" }}
+                    >
+                      {step.number}
+                    </div>
+                  </div>
+                  <div className="flex-grow">
+                    <div className="flex items-center gap-3 mb-2">
+                      <Icon className="w-6 h-6 text-[#0080FF]" />
+                      <h3 className="text-xl md:text-2xl font-bold text-gray-900" style={{ fontFamily: "Inter" }}>
+                        {step.title}
+                      </h3>
+                      <span className="text-sm text-gray-500 hidden md:inline" style={{ fontFamily: "Inter" }}>
+                        ({step.duration})
+                      </span>
+                    </div>
+                    <span className="text-sm text-gray-500 md:hidden block mb-2" style={{ fontFamily: "Inter" }}>
+                      {step.duration}
+                    </span>
+                    <p className="text-gray-600 text-base md:text-[17px]" style={{ fontFamily: "Inter" }}>
+                      {step.description}
+                    </p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </section>
+
+        {/* Testimonials */}
+        <section className="mt-20 md:mt-32 max-w-6xl mx-auto px-4">
+          <div className="text-center mb-10 md:mb-14">
+            <h2
+              className="text-black font-bold text-[28px] md:text-[44px] leading-tight mb-4"
+              style={{ fontFamily: "Inter" }}
+            >
+              Don&apos;t Take Our Word For It. <span className="text-[#0080FF]">Look at the Data.</span>
+            </h2>
+            <p className="text-gray-600 text-base md:text-[18px] max-w-2xl mx-auto" style={{ fontFamily: "Inter" }}>
+              Real firms. Real numbers. Real cases coming through AI search.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            {TESTIMONIALS.map((t) => (
+              <div
+                key={t.name}
+                className="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-100 flex flex-col"
+              >
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-5 h-5" viewBox="0 0 24 24" fill="#FDB022">
+                      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                    </svg>
+                  ))}
+                </div>
+                <div className="bg-blue-50 border border-blue-100 rounded-lg px-4 py-2 mb-4 self-start">
+                  <span className="text-[#0080FF] font-semibold text-sm" style={{ fontFamily: "Inter" }}>
+                    {t.metric}
+                  </span>
+                </div>
+                <p className="text-gray-800 mb-6 flex-grow text-base md:text-[17px] leading-relaxed" style={{ fontFamily: "Inter" }}>
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+                <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
+                  <img
+                    src={t.image}
+                    alt={t.name}
+                    className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+                  />
+                  <div>
+                    <p className="font-semibold text-gray-900" style={{ fontFamily: "Inter", fontSize: "15px" }}>
+                      {t.name}
+                    </p>
+                    <p className="text-gray-600 text-xs" style={{ fontFamily: "Inter" }}>
+                      {t.title} · {t.location}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Final guarantee block */}
+        <section className="mt-20 md:mt-32 max-w-4xl mx-auto px-4">
+          <div className="bg-gradient-to-br from-[#0080FF] to-blue-700 rounded-3xl p-8 md:p-12 text-white text-center shadow-2xl">
+            <ShieldCheck className="w-16 h-16 mx-auto mb-6 text-white" />
+            <h2
+              className="text-white font-bold text-[28px] md:text-[44px] leading-tight mb-4"
+              style={{ fontFamily: "Inter" }}
+            >
+              25 Qualified Cases in 90 Days. Or We Work Free.
+            </h2>
+            <p
+              className="text-blue-100 text-base md:text-[18px] max-w-2xl mx-auto mb-8"
+              style={{ fontFamily: "Inter" }}
+            >
+              We get your firm recommended by ChatGPT, Claude, and Perplexity within 90 days. If you have not received
+              25 qualified cases through AI search by then, we keep working at zero cost until you do.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 max-w-2xl mx-auto mb-8">
+              <div className="bg-white/15 backdrop-blur-sm rounded-lg px-4 py-3">
+                <p className="text-white font-semibold text-sm" style={{ fontFamily: "Inter" }}>
+                  Month-to-month billing
+                </p>
+              </div>
+              <div className="bg-white/15 backdrop-blur-sm rounded-lg px-4 py-3">
+                <p className="text-white font-semibold text-sm" style={{ fontFamily: "Inter" }}>
+                  Cancel anytime
+                </p>
+              </div>
+              <div className="bg-white/15 backdrop-blur-sm rounded-lg px-4 py-3">
+                <p className="text-white font-semibold text-sm" style={{ fontFamily: "Inter" }}>
+                  No long-term contracts
+                </p>
+              </div>
+            </div>
+            <Link
+              href="/book-a-call-fb"
+              className="bg-white text-[#0080FF] py-4 text-[18px] md:text-[20px] font-bold rounded-[10px] hover:bg-blue-50 transition-colors inline-flex items-center gap-2 px-8 md:px-12"
+              style={{ fontFamily: "Inter" }}
+            >
+              Book Your Free Audit <ArrowRight className="w-5 h-5" />
+            </Link>
+          </div>
+        </section>
+
+        {/* FAQs */}
+        <section className="mt-20 md:mt-32 max-w-4xl mx-auto px-4">
+          <div className="text-center mb-10 md:mb-14">
+            <h2
+              className="text-black font-bold text-[28px] md:text-[44px] leading-tight"
+              style={{ fontFamily: "Inter" }}
+            >
+              Frequently Asked Questions
+            </h2>
+          </div>
+
+          <div className="space-y-4">
+            {FAQS.map((faq, index) => (
+              <details
+                key={index}
+                className="rounded-2xl overflow-hidden bg-white shadow-md border border-gray-100 group"
+              >
                 <summary
-                  className="flex justify-between items-center p-4 md:p-6 cursor-pointer list-none min-h-[78px]"
+                  className="flex justify-between items-center p-5 md:p-6 cursor-pointer list-none"
                   style={{ fontFamily: "Inter" }}
                 >
-                  <span className="text-black font-medium md:text-[18px] text-lg">{faq.question}</span>
+                  <span className="text-black font-semibold text-base md:text-lg pr-4">{faq.question}</span>
                   <svg
-                    className="w-5 h-5 flex-shrink-0 transition-transform"
+                    className="w-5 h-5 flex-shrink-0 transition-transform group-open:rotate-180"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -523,26 +566,70 @@ export default function VariantA() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </summary>
-                <div className="px-4 md:px-6 pb-4 md:pb-6">
-                  <p className="text-gray-600 md:text-[16px] text-lg" style={{ fontFamily: "Inter" }}>
+                <div className="px-5 md:px-6 pb-5 md:pb-6">
+                  <p className="text-gray-600 text-base leading-relaxed" style={{ fontFamily: "Inter" }}>
                     {faq.answer}
                   </p>
                 </div>
               </details>
             ))}
           </div>
-        </div>
+        </section>
 
-        {/* Final CTA Button under FAQ */}
-        <div className="flex justify-center px-4 md:px-8">
-          <Link
-            href="/book-a-call-fb"
-            className="bg-[#0080FF] text-white py-4 text-[18px] md:text-[20px] font-semibold rounded-[10px] hover:bg-blue-600 transition-colors inline-block w-full md:w-auto md:px-20 text-center"
+        {/* Final closing CTA */}
+        <section className="mt-20 md:mt-32 max-w-4xl mx-auto px-4 text-center">
+          <h2
+            className="text-black font-bold text-[28px] md:text-[40px] leading-tight mb-4"
             style={{ fontFamily: "Inter" }}
           >
-            Book a Call
+            Here&apos;s Exactly What To Do Next
+          </h2>
+          <p className="text-gray-600 text-base md:text-[18px] mb-8 max-w-2xl mx-auto" style={{ fontFamily: "Inter" }}>
+            Three steps. About 15 minutes. No pressure.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 max-w-3xl mx-auto">
+            {[
+              { num: "1", text: "Click the button below" },
+              { num: "2", text: "Pick a 15-minute time slot" },
+              { num: "3", text: "We audit your AI visibility live" },
+            ].map((s) => (
+              <div key={s.num} className="bg-white rounded-2xl p-5 md:p-6 shadow-md border border-gray-100">
+                <div
+                  className="w-10 h-10 bg-[#0080FF] rounded-full flex items-center justify-center text-white font-bold mx-auto mb-3"
+                  style={{ fontFamily: "Inter" }}
+                >
+                  {s.num}
+                </div>
+                <p className="text-gray-700 font-semibold" style={{ fontFamily: "Inter" }}>
+                  {s.text}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <Link
+            href="/book-a-call-fb"
+            className="bg-[#0080FF] text-white py-4 text-[18px] md:text-[20px] font-semibold rounded-[10px] hover:bg-blue-600 transition-colors inline-block w-full max-w-md md:w-auto md:px-20 text-center"
+            style={{ fontFamily: "Inter" }}
+          >
+            See If You Qualify
           </Link>
-        </div>
+          <p className="text-center text-gray-500 text-sm mt-3 italic" style={{ fontFamily: "Inter" }}>
+            Free 15-minute AI visibility audit
+          </p>
+        </section>
+
+        {/* Footer */}
+        <footer className="mt-20 md:mt-32 pt-8 border-t border-gray-200 text-center text-xs text-gray-400 max-w-4xl mx-auto px-4">
+          <p className="mb-2" style={{ fontFamily: "Inter" }}>
+            © {new Date().getFullYear()} Amphs AI. All rights reserved.
+          </p>
+          <p style={{ fontFamily: "Inter" }}>
+            This site is not part of the Facebook website or Facebook Inc. Additionally, this site is NOT endorsed by
+            Facebook in any way. FACEBOOK is a trademark of FACEBOOK, Inc.
+          </p>
+        </footer>
       </div>
     </main>
   )
