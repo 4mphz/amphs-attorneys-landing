@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Cal, { getCalApi } from "@calcom/embed-react"
 import {
   Loader2,
@@ -74,19 +74,51 @@ export default function ContactFormAttorneys() {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [touched, setTouched] = useState<Record<string, boolean>>({})
   const [leadEventId, setLeadEventId] = useState<string>("")
+  const leadEventIdRef = useRef<string>("")
+
+  useEffect(() => {
+    leadEventIdRef.current = leadEventId
+  }, [leadEventId])
 
   useEffect(() => {
     const saved = loadFormData<FormData>()
     if (saved) setData(saved)
+  }, [])
 
+  useEffect(() => {
+    if (step !== 7) return
+
+    let cancelled = false
     ;(async () => {
       try {
-        await getCalApi()
+        const cal = await getCalApi()
+        if (cancelled || !cal) return
+
+        cal("on", {
+          action: "bookingSuccessful",
+          callback: () => {
+            const eid = leadEventIdRef.current
+            if (typeof window !== "undefined" && window.fbq && eid) {
+              window.fbq("track", "Schedule", {}, { eventID: eid })
+            }
+            posthog.capture?.("booking_confirmed", {
+              form: "attorneys_v2",
+              funnel: "attorneys-v2",
+              event_id: eid,
+              qualified: isQualified(data),
+            })
+            clearFormData()
+          },
+        })
       } catch (err) {
-        console.error("Cal.com init error:", err)
+        console.error("Cal listener setup error:", err)
       }
     })()
-  }, [])
+
+    return () => {
+      cancelled = true
+    }
+  }, [step, data])
 
   useEffect(() => {
     saveFormData(data)
