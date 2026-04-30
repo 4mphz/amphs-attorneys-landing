@@ -29,15 +29,15 @@ export default function Page() {
 
         <p className="text-gray-600 text-base md:text-lg px-2 max-w-2xl mx-auto">
           When potential clients ask ChatGPT for the best attorney in your city, your competitor&apos;s name comes up.
-          We fix that. Book your free 15-minute AI visibility audit below.
+          We fix that. Answer 7 quick questions to see if your firm qualifies.
         </p>
       </div>
 
-      <div className="max-w-5xl mx-auto flex flex-col lg:flex-row gap-6 md:gap-8 items-start justify-center">
-        <div className="rounded-2xl p-6 md:p-8 w-full lg:w-auto lg:max-w-[588px] bg-white shadow-lg border border-gray-100">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6 md:gap-8 items-start justify-center">
+        <div className="rounded-2xl p-6 md:p-8 w-full lg:flex-1 lg:max-w-[860px] bg-white shadow-lg border border-gray-100">
           <div className="text-center mb-5 md:mb-6">
             <p className="font-inter text-base md:text-lg font-semibold text-gray-700 mb-2">
-              Answer 4 quick questions
+              Answer 7 quick questions
             </p>
             <h2
               className="font-inter text-2xl md:text-3xl font-bold text-black px-2"
@@ -50,7 +50,7 @@ export default function Page() {
           <ContactFormAttorneys />
         </div>
 
-        <div className="w-full lg:w-auto lg:max-w-md pt-2 md:pt-4">
+        <div className="w-full lg:w-auto lg:max-w-sm pt-2 md:pt-4">
           <h2
             className="font-inter text-xl md:text-2xl font-bold text-black mb-6 md:mb-8 text-center lg:text-left"
             style={{ fontSize: "clamp(20px, 4vw, 28px)" }}
@@ -60,9 +60,9 @@ export default function Page() {
 
           <div className="space-y-4 md:space-y-6">
             {[
-              "We audit your AI visibility live on the call. You&apos;ll see exactly what ChatGPT, Claude, and Perplexity say about your firm right now.",
-              "We walk you through the same system that&apos;s ranking attorneys #1 for ChatGPT searches in their city in under 90 days.",
-              "If we&apos;re a fit, we map out exactly how we&apos;ll get you 25 qualified cases in 90 days. If not, you walk away with the audit data.",
+              "We audit your AI visibility live on the call. You'll see exactly what ChatGPT, Claude, and Perplexity say about your firm right now.",
+              "We show you the firms ranking #1 for AI search in your city and what they did differently.",
+              "If we're a fit, we map out exactly how we'll get you 25 qualified cases in 90 days. If not, you walk away with the audit data.",
               "No pushy sales tactics. 15 minutes, real insights, you decide what to do with them.",
             ].map((text, index) => (
               <div key={index} className="flex gap-3 md:gap-4 items-start">
@@ -70,10 +70,11 @@ export default function Page() {
                   <Check className="w-3 h-3 md:w-4 md:h-4 text-white" strokeWidth={3} />
                 </div>
                 <p
-                  className="font-inter text-base md:text-xl font-semibold text-gray-800"
-                  style={{ fontSize: "clamp(15px, 3vw, 18px)" }}
-                  dangerouslySetInnerHTML={{ __html: text }}
-                />
+                  className="font-inter text-base md:text-lg text-gray-800"
+                  style={{ fontSize: "clamp(15px, 2.5vw, 17px)" }}
+                >
+                  {text}
+                </p>
               </div>
             ))}
           </div>
