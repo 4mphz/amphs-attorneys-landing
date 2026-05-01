@@ -50,7 +50,7 @@ const WEBHOOK_CONTACT_INFO =
   "https://amphs.app.n8n.cloud/webhook/contact-info-capture"
 const WEBHOOK_FULL_FORM =
   process.env.NEXT_PUBLIC_WEBHOOK_FULL_FORM ||
-  "https://amphs.app.n8n.cloud/webhook/qualifying-form"
+  "https://amphs.app.n8n.cloud/webhook/qualifying-form-v2"
 
 const INITIAL: FormData = {
   firstName: "",
